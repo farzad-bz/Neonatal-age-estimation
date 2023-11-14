@@ -3,7 +3,7 @@ Codes of the paper "Determining regional brain growth in premature and mature in
 
 
 ### Step 0: Preprocessing the data
-In the initial stage, it is important to standardize the resolution of all MRIs to a consistent size, such as 0.50.50.5. This essential preprocessing step significantly affects the extracted features and the segmentations in the next steps. Also, the dataset should be split into training, validation, and testing sets. Then, to train the segmentation network better and decrease the GPU required for training the model, we extract 128*128*128 patches and save them as well as their corresponding dataframe. A sample patches-dataframe can be seen in the "dataframes" folder
+In the initial stage, it is important to standardize the resolution of all MRIs to a consistent size, such as 0.50x50x50 This essential preprocessing step significantly affects the extracted features and the segmentations in the next steps. Also, the dataset should be split into training, validation, and testing sets. Then, to train the segmentation network better and decrease the GPU required for training the model, we extract 128*128*128 patches and save them as well as their corresponding dataframe. A sample patches-dataframe can be seen in the "dataframes" folder
 
 
 ### step1: Training the segmentation network
