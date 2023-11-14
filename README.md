@@ -14,5 +14,5 @@ Using "Train-nnUnet.py" train the segmentation network (nn-UNet) with your train
 Using "Extract_features.py" extract the surface-to-volume ratio and relational volume for each region of the brain (each label). This part of the code will save a data frame including all extracted features for all subjects. 
 
 
-### step3: training Bayesian Ridge regression model for age estimation regression
+### step3: training Bayesian Ridge regression model for age estimation
 In the final step, using "Age_estimation.py" a Bayesian ridge regression model will be trained based on the extracted features of the training set from previous steps. Then for the test set, it compares the predicted age results with their actual age and reports the R^2 and MAE metrics
