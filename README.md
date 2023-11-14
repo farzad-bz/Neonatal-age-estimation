@@ -15,4 +15,18 @@ Using "Extract_features.py" extract the surface-to-volume ratio and relational v
 
 
 ### step3: training Bayesian Ridge regression model for age estimation regression
-In the final step, using "Age_estimation.py" a Bayesian ridge regression model will be trained based on the extracted features of the training set from previous steps. Then for the test set, it compares the predicted age results with their actual age and report the R^2 and MAE metrics
+In the final step, using "Age_estimation.py" a Bayesian ridge regression model will be trained based on the extracted features of the training set from previous steps. Then for the test set, it compares the predicted age results with their actual age and reports the R^2 and MAE metrics
+
+Please cite this paper if you have used these codes:
+```yaml
+@article{beizaee2023determining,
+  title={Determining regional brain growth in premature and mature infants in relation to age at MRI using deep neural networks},
+  author={Beizaee, Farzad and Bona, Michele and Desrosiers, Christian and Dolz, Jose and Lodygensky, Gregory},
+  journal={Scientific Reports},
+  volume={13},
+  number={1},
+  pages={13259},
+  year={2023},
+  publisher={Nature Publishing Group UK London}
+}
+```
