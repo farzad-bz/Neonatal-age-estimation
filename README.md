@@ -11,7 +11,7 @@ Using "step1-segmentation/Train-nnUnet.py" train the segmentation network (nn-UN
 
 
 ### step2: Extracting Regions' Volume and Surface-to-Volume Ratio features.
-Using "step2-extract featuresDHCP_nn-Unet_extract_features.py" extract the surface-to-volume ratio and relational volume for regions of the brain (each label). This part of the code will save a data frame including all extracted features for all subjects. 
+Using "step2-extract featuresDHCP_nn-Unet_extract_features.py" extract the surface-to-volume ratio and relational volume for regions of the brain (each label). This part of the code will save a data frame including all extracted features for all subjects. It also shows the most important regions (for RV and S2V ratio) involved in brain maturation.
 
 
 ### step3: training Bayesian Ridge regression model for age estimation regression
