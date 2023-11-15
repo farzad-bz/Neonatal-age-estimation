@@ -7,8 +7,8 @@ import os
 from tqdm import tqdm
 
 
-train_df = pd.read_csv('DHCP-train-dataframe.csv')
-val_df = pd.read_csv('DHCP-val-dataframe.csv')
+train_df = pd.read_csv('../dataframes/DHCP-train-dataframe.csv')
+val_df = pd.read_csv('../dataframes/DHCP-val-dataframe.csv')
 
 print('splitting to 3d patches started:')
 
@@ -120,5 +120,5 @@ for mode in ['train', 'val']:
 
     print('saving dataframe ... ')
     df = pd.DataFrame({'sub':subs, 'ses':sess, 'T2_modality':img_t2_patches, 'brainmask_bet':mask_patches, 'segmentation_9classes':seg9_patches, 'segmentation_87classes':seg87_patches, 'patches':all_patches})
-    df.to_csv(f'DHCP-patches-128-{mode}-dataframe.csv')
+    df.to_csv(f'../dataframes/DHCP-patches-128-{mode}-dataframe.csv')
     print('data frame saved')
