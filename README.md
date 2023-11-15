@@ -1,5 +1,5 @@
 # Neonatal-age-estimation
-Codes of the paper "Determining regional brain growth in premature and mature infants in relation to age at MRI using deep neural networks"
+Codes of the paper ["Determining regional brain growth in premature and mature infants in relation to age at MRI using deep neural networks"](https://www.nature.com/articles/s41598-023-40244-z)
 The output dataframes from each step are stored in the 'dataframes' folder, allowing you to easily navigate to the specific step you're interested in.
 
 ### Step 0: Preprocessing the data
