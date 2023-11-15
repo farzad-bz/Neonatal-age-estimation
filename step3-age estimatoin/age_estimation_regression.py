@@ -6,8 +6,7 @@ from sklearn.metrics import mean_absolute_error as mae
 from sklearn.metrics import mean_squared_error as mse
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import BayesianRidge
-
-f'DHCP_test_nn-UNet_extracted_features.csv'
+from sklearn.inspection import permutation_importance
 
 def prepare_data(df, gender, variable):
     if gender in ["Male", "Female"]:
@@ -82,23 +81,51 @@ def most_correlated_regression(X, gt, X_test, gt_test, correlations, num_selecte
     return regressor, reg_score, reg_rmse, reg_mae, reg_mae_std, np.mean(gt), reg_maes
 
 
-train_data_df = pd.read_csv('../dataframes/DHCP_train_nn-UNet_extracted_features.csv', index_col=0)
-test_data_df = pd.read_csv('../dataframes/DHCP_test_nn-UNet_extracted_features.csv', index_col=0)
+train_data_df = pd.read_csv('./age-estimation-codes/DHCP_train_nn-UNet_extracted_features.csv', index_col=0)
+test_data_df = pd.read_csv('./age-estimation-codes/DHCP_test_nn-UNet_extracted_features.csv', index_col=0)
 selected_size = 100 # number of features selected among those with most correlations with age
-regressor = BayesianRidge()
+regressor_1 = BayesianRidge()
+regressor_2 = BayesianRidge()
 
 
 variable = 'scan_age' #it can be one of ['birth_age', 'scan_age', 'birth_weight', 'head_circumference']
 gender = 'all' #it can be 'Male' or 'Female'
-X_train, y_train = prepare_data(train_data_df, gender, variable)
-X_test, y2_test = prepare_data(test_data_df, gender, variable)
+X_train, y_train = prepare_data(train_data_df, gender, variable, features='all')
+X_test, y_test = prepare_data(test_data_df, gender, variable, features='all')
 correlations = pearson_correlation(X_train, y_train)
-regressor, scaler, reg_score, reg_rmse, reg_mae, reg_mae_std, bias = full_regression(X_train, y_train, X_test, y2_test, regressor)
-regressor, reg_score_sel, reg_rmse_sel, reg_mae_sel, reg_mae_std_sel, bias, maes = most_correlated_regression(X_train, y_train, X_test, y2_test,  correlations, selected_size, regressor)
+regressor_1, scaler, reg_score, reg_rmse, reg_mae, reg_mae_std, bias = full_regression(X_train, y_train, X_test, y_test, regressor_1)
+regressor_2, reg_score_sel, reg_rmse_sel, reg_mae_sel, reg_mae_std_sel, bias, maes = most_correlated_regression(X_train, y_train, X_test, y_test,  correlations, selected_size, regressor_2)
 print('** No selection **  MAE: {:.4f}±{:.4f},  R2: {:.4f},   RMSE: {:.4f}'.format(reg_mae, reg_mae_std, reg_score, reg_rmse))
 print('** With selection **  MAE: {:.4f}±{:.4f},  R2: {:.4f},   RMSE: {:.4f}'.format(reg_mae_sel, reg_mae_std_sel, reg_score_sel, reg_rmse_sel))
 
-
-
-
-
+seg87_labels = pd.read_table('../dataframes/labels_name_87.txt')['name'].values
+regressor_importance = BayesianRidge()
+X1, y1 = prepare_data(train_data_df, gender, variable, features='S2V')
+X2, y2 = prepare_data(test_data_df, gender, variable, features='S2V')
+regressor_importance.fit(X1,y1)
+importances = permutation_importance(regressor_importance, X2, y2, n_repeats=100,  scoring='neg_mean_squared_error')
+indexes = np.argsort(abs(importances['importances_mean']))[::-1]
+print('*******************************************')
+print('most important regions for brain maturation for surface to volume ratio')
+print('*******************************************')
+for idx in indexes[:10]:
+    if idx<84: ##because label 84 was removed
+        print(idx, seg87_labels[idx])
+    if idx>=84:    
+        print(idx+1, seg87_labels[idx+1])
+    
+print()
+regressor_importance = BayesianRidge()
+X1, y1 = prepare_data(train_data_df, gender, variable, features='RV')
+X2, y2 = prepare_data(test_data_df, gender, variable, features='RV')
+regressor_importance.fit(X1,y1)
+importances = permutation_importance(regressor_importance, X2, y2, n_repeats=100,  scoring='neg_mean_squared_error')
+indexes = np.argsort(abs(importances['importances_mean']))[::-1]
+print('*******************************************')
+print('most important regions for brain maturation for relational volume')
+print('*******************************************')
+for idx in indexes[:10]:
+    if idx<84: ##because label 84 was removed
+        print(idx, seg87_labels[idx])
+    if idx>=84:    
+        print(idx+1, seg87_labels[idx+1])
